@@ -1,26 +1,299 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* =====================================================
+   LABSIM MERDEKA — Design System
+   Based on DESIGN.md (Apple-inspired, Tech-Teal primary)
+   ===================================================== */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* --- Fonts --- */
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+
+  /* --- Primary (Tech-Teal) --- */
+  --color-primary: #00838F;
+  --color-primary-focus: #006064;
+  --color-primary-dark: #4DD0E1;
+  --color-on-primary: #ffffff;
+
+  /* --- Text / Ink --- */
+  --color-ink: #1E252B;
+  --color-body: #1E252B;
+  --color-body-on-dark: #ffffff;
+  --color-body-muted: #94A3B8;
+  --color-ink-80: #334155;
+  --color-ink-48: #64748B;
+
+  /* --- Surfaces --- */
+  --color-canvas: #ffffff;
+  --color-canvas-parchment: #F8FAFC;
+  --color-surface-pearl: #F1F5F9;
+  --color-surface-chip: rgba(0, 131, 143, 0.08);
+  --color-surface-tile-1: #1E293B;
+  --color-surface-tile-2: #334155;
+  --color-surface-tile-3: #0F172A;
+  --color-surface-black: #020617;
+  --color-on-dark: #ffffff;
+
+  /* --- Borders --- */
+  --color-divider: #F1F5F9;
+  --color-hairline: #E2E8F0;
+
+  /* --- Science Module Accents --- */
+  --color-fisika: #2563EB;
+  --color-kimia: #7C3AED;
+  --color-biologi: #16A34A;
+
+  /* --- Feedback --- */
+  --color-success: #22C55E;
+  --color-warning: #EAB308;
+  --color-error: #EF4444;
+
+  /* --- Spacing --- */
+  --spacing-xxs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 17px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  --spacing-section: 80px;
+
+  /* --- Border Radius --- */
+  --radius-none: 0px;
+  --radius-xs: 5px;
+  --radius-sm: 8px;
+  --radius-md: 11px;
+  --radius-lg: 18px;
+  --radius-pill: 9999px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* =====================================================
+   CSS Custom Properties (for non-Tailwind usage)
+   ===================================================== */
+:root {
+  --primary: #00838F;
+  --primary-focus: #006064;
+  --on-primary: #ffffff;
+  --canvas: #ffffff;
+  --canvas-parchment: #F8FAFC;
+  --surface-tile-1: #1E293B;
+  --surface-tile-3: #0F172A;
+  --ink: #1E252B;
+  --ink-80: #334155;
+  --ink-48: #64748B;
+  --body-muted: #94A3B8;
+  --hairline: #E2E8F0;
+}
+
+/* =====================================================
+   Base Styles
+   ===================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-inter, system-ui, -apple-system, sans-serif);
+  font-size: 17px;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* =====================================================
+   Typography Utilities
+   ===================================================== */
+.text-hero {
+  font-size: 56px;
+  font-weight: 600;
+  line-height: 1.07;
+  letter-spacing: -0.28px;
+}
+
+.text-display-lg {
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.10;
+  letter-spacing: 0;
+}
+
+.text-display-md {
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+}
+
+.text-lead {
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.14;
+  letter-spacing: 0.196px;
+}
+
+.text-tagline {
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.19;
+  letter-spacing: 0.231px;
+}
+
+.text-body-strong {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.24;
+  letter-spacing: -0.374px;
+}
+
+.text-caption {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: -0.224px;
+}
+
+.text-fine {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: -0.12px;
+}
+
+/* =====================================================
+   Button Utilities
+   ===================================================== */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--primary);
+  color: var(--on-primary);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+  border-radius: 9999px;
+  padding: 11px 22px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+.btn-primary:active {
+  transform: scale(0.95);
+}
+.btn-primary:hover {
+  background: var(--primary-focus);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--primary);
+  font-size: 17px;
+  font-weight: 400;
+  border-radius: 9999px;
+  padding: 10px 22px;
+  border: 1px solid var(--primary);
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.btn-ghost:active {
+  transform: scale(0.95);
+}
+.btn-ghost:hover {
+  background: var(--surface-chip);
+}
+
+/* =====================================================
+   Surface / Tile Utilities
+   ===================================================== */
+.tile-light {
+  background: var(--canvas);
+  color: var(--ink);
+}
+.tile-parchment {
+  background: var(--canvas-parchment);
+  color: var(--ink);
+}
+.tile-dark {
+  background: var(--surface-tile-1);
+  color: var(--on-primary);
+}
+.tile-darker {
+  background: var(--surface-tile-3);
+  color: var(--on-primary);
+}
+
+/* =====================================================
+   Animations
+   ===================================================== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 131, 143, 0.4); }
+  50%       { box-shadow: 0 0 0 8px rgba(0, 131, 143, 0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to   { background-position: 200% 0; }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.6s ease forwards;
+}
+.animate-fade-in {
+  animation: fadeIn 0.4s ease forwards;
+}
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Staggered delay helpers */
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+
+/* =====================================================
+   Scrollbar
+   ===================================================== */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--canvas-parchment); }
+::-webkit-scrollbar-thumb { background: var(--hairline); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--body-muted); }
+
+/* =====================================================
+   Focus ring
+   ===================================================== */
+*:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
