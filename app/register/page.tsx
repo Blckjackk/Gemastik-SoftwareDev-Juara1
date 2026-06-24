@@ -5,9 +5,8 @@ import { useState } from "react";
 import { Eye, EyeOff, FlaskConical, ArrowRight, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [role, setRole] = useState<"siswa" | "guru">("siswa");
@@ -18,9 +17,7 @@ export default function LoginPage() {
     // Simulate loading
     await new Promise((r) => setTimeout(r, 1500));
     setIsLoading(false);
-    localStorage.setItem("userRole", role);
-    localStorage.setItem("userName", role === "guru" ? "Bu Sari" : "Andi Pratama");
-    window.location.href = role === "guru" ? "/dashboard/guru" : "/dashboard";
+    window.location.href = "/login";
   };
 
   return (
@@ -67,36 +64,26 @@ export default function LoginPage() {
         <div className="relative z-10">
           <blockquote className="text-white/80 text-[22px] font-light leading-relaxed mb-6"
             style={{ letterSpacing: "-0.2px" }}>
-            "Sains bukan tentang hafalan, tapi tentang&nbsp;
-            <span className="text-[#4DD0E1] font-semibold">eksperimen dan rasa ingin tahu."</span>
+            "Mulai eksperimen mandiri dan&nbsp;
+            <span className="text-[#4DD0E1] font-semibold">temukan hukum-hukum alam di sekitarmu."</span>
           </blockquote>
 
-          {/* Simulation previews */}
+          {/* Feature list */}
           <div className="space-y-3">
             {[
-              { icon: "🎯", label: "Gerak Parabola", sub: "Fisika", active: true },
-              { icon: "🧪", label: "Titrasi Asam-Basa", sub: "Kimia", active: false },
-              { icon: "🧬", label: "Genetika Mendel", sub: "Biologi", active: false },
-            ].map((s) => (
+              { icon: "⚡", label: "Simulasi Interaktif", desc: "Ubah variabel sesuka hati" },
+              { icon: "📝", label: "Laporan Praktikum Otomatis", desc: "Ekspor PDF instan" },
+              { icon: "📊", label: "Dashboard Guru", desc: "Pantau progress kelas terintegrasi" },
+            ].map((f, i) => (
               <div
-                key={s.label}
-                className={`flex items-center gap-3 p-3 rounded-xl border transition-all duration-200 ${
-                  s.active
-                    ? "border-[#00838F]/50 bg-[#00838F]/10"
-                    : "border-white/5 bg-white/3"
-                }`}
+                key={i}
+                className="flex items-center gap-3 p-3 rounded-xl border border-white/5 bg-white/3"
               >
-                <span className="text-lg">{s.icon}</span>
+                <span className="text-lg">{f.icon}</span>
                 <div>
-                  <p className="text-white text-[13px] font-medium leading-tight">{s.label}</p>
-                  <p className="text-white/40 text-[11px]">{s.sub}</p>
+                  <p className="text-white text-[13px] font-medium leading-tight">{f.label}</p>
+                  <p className="text-white/40 text-[11px]">{f.desc}</p>
                 </div>
-                {s.active && (
-                  <span className="ml-auto flex items-center gap-1 text-[10px] text-[#4DD0E1]">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#4DD0E1] animate-pulse" />
-                    Live
-                  </span>
-                )}
               </div>
             ))}
           </div>
@@ -109,7 +96,7 @@ export default function LoginPage() {
 
       {/* Right panel — form */}
       <div className="flex-1 flex items-center justify-center px-6 py-12 bg-[#F8FAFC]">
-        <div className="w-full max-w-sm">
+        <div className="w-full max-w-md">
           {/* Mobile logo */}
           <div className="lg:hidden flex items-center gap-2 mb-8">
             <div
@@ -122,10 +109,10 @@ export default function LoginPage() {
           </div>
 
           <h1 className="text-[28px] font-semibold text-[#1E252B] mb-1" style={{ letterSpacing: "-0.3px" }}>
-            Selamat datang kembali
+            Buat akun baru
           </h1>
           <p className="text-[#64748B] text-[15px] mb-8">
-            Masuk untuk melanjutkan eksperimen.
+            Daftar untuk mengakses semua modul simulasi sains.
           </p>
 
           {/* Role toggle */}
@@ -134,6 +121,7 @@ export default function LoginPage() {
               <button
                 key={r}
                 id={`role-${r}`}
+                type="button"
                 onClick={() => setRole(r)}
                 className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                   role === r
@@ -147,9 +135,37 @@ export default function LoginPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-1.5">
+                <Label htmlFor="fullname" className="text-[13px] font-medium text-[#334155]">
+                  Nama Lengkap
+                </Label>
+                <Input
+                  id="fullname"
+                  type="text"
+                  placeholder="Andi Pratama"
+                  required
+                  className="h-11 text-[14px] bg-white border-[#E2E8F0] focus:border-[#00838F] focus:ring-1 focus:ring-[#00838F] transition-shadow rounded-xl"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="school" className="text-[13px] font-medium text-[#334155]">
+                  Asal Sekolah
+                </Label>
+                <Input
+                  id="school"
+                  type="text"
+                  placeholder="SMAN 1 Jakarta"
+                  required
+                  className="h-11 text-[14px] bg-white border-[#E2E8F0] focus:border-[#00838F] focus:ring-1 focus:ring-[#00838F] transition-shadow rounded-xl"
+                />
+              </div>
+            </div>
+
             <div className="space-y-1.5">
               <Label htmlFor="email" className="text-[13px] font-medium text-[#334155]">
-                Email
+                Email Sekolah
               </Label>
               <Input
                 id="email"
@@ -161,17 +177,9 @@ export default function LoginPage() {
             </div>
 
             <div className="space-y-1.5">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password" className="text-[13px] font-medium text-[#334155]">
-                  Kata Sandi
-                </Label>
-                <a
-                  href="#"
-                  className="text-[12px] text-[#00838F] hover:text-[#006064] transition-colors"
-                >
-                  Lupa sandi?
-                </a>
-              </div>
+              <Label htmlFor="password" className="text-[13px] font-medium text-[#334155]">
+                Kata Sandi
+              </Label>
               <div className="relative">
                 <Input
                   id="password"
@@ -184,7 +192,6 @@ export default function LoginPage() {
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-[#94A3B8] hover:text-[#64748B] transition-colors"
-                  aria-label={showPassword ? "Sembunyikan sandi" : "Tampilkan sandi"}
                 >
                   {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
@@ -192,7 +199,7 @@ export default function LoginPage() {
             </div>
 
             <button
-              id="login-submit"
+              id="register-submit"
               type="submit"
               disabled={isLoading}
               className="w-full h-11 rounded-xl text-[15px] font-medium text-white flex items-center justify-center gap-2 transition-all duration-200 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed mt-6"
@@ -201,11 +208,11 @@ export default function LoginPage() {
               {isLoading ? (
                 <>
                   <Loader2 size={16} className="animate-spin" />
-                  Masuk...
+                  Pendaftaran...
                 </>
               ) : (
                 <>
-                  Masuk ke LabSim
+                  Daftar Akun Baru
                   <ArrowRight size={16} />
                 </>
               )}
@@ -213,9 +220,9 @@ export default function LoginPage() {
           </form>
 
           <p className="mt-8 text-center text-[13px] text-[#94A3B8]">
-            Belum punya akun?{" "}
-            <Link href="#" className="text-[#00838F] font-medium hover:underline">
-              Hubungi guru Anda
+            Sudah punya akun?{" "}
+            <Link href="/login" className="text-[#00838F] font-medium hover:underline">
+              Masuk di sini
             </Link>
           </p>
         </div>

@@ -17,28 +17,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const navItems = [
-  {
-    href: "/dashboard",
-    label: "Dashboard",
-    icon: LayoutDashboard,
-  },
-  {
-    href: "/simulations",
-    label: "Simulasi",
-    icon: FlaskConical,
-  },
-  {
-    href: "/assignments",
-    label: "Tugas",
-    icon: ClipboardList,
-  },
-  {
-    href: "/profile",
-    label: "Profil",
-    icon: User,
-  },
-];
+import { useEffect, useState } from "react";
 
 const subjectItems = [
   { label: "Fisika", icon: Atom, color: "text-blue-500", bg: "bg-blue-50" },
@@ -48,6 +27,37 @@ const subjectItems = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const [role, setRole] = useState<"siswa" | "guru" | "admin">("siswa");
+
+  useEffect(() => {
+    const storedRole = localStorage.getItem("userRole") as any;
+    if (storedRole) {
+      setRole(storedRole);
+    }
+  }, []);
+
+  const navItems = [
+    {
+      href: role === "guru" ? "/dashboard/guru" : "/dashboard",
+      label: "Dashboard",
+      icon: LayoutDashboard,
+    },
+    {
+      href: "/simulations",
+      label: "Simulasi",
+      icon: FlaskConical,
+    },
+    {
+      href: role === "guru" ? "/assignments/new" : "/assignments",
+      label: role === "guru" ? "Buat Tugas" : "Tugas",
+      icon: ClipboardList,
+    },
+    {
+      href: "/profile",
+      label: "Profil",
+      icon: User,
+    },
+  ];
 
   return (
     <aside className="fixed left-0 top-0 h-full w-64 flex flex-col z-30 border-r border-[#E2E8F0] bg-[#F8FAFC]">
@@ -139,13 +149,19 @@ export function Sidebar() {
       {/* Bottom: user + logout */}
       <div className="p-3 border-t border-[#E2E8F0] space-y-1">
         <Link
-          href="/settings"
+          href="/profile"
           className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-[#334155] hover:bg-[#E2E8F0] transition-colors"
         >
           <Settings size={17} className="text-[#64748B] shrink-0" />
           Pengaturan
         </Link>
-        <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-red-500 hover:bg-red-50 transition-colors">
+        <button 
+          onClick={() => {
+            localStorage.clear();
+            window.location.href = "/login";
+          }}
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-red-500 hover:bg-red-50 transition-colors"
+        >
           <LogOut size={17} className="shrink-0" />
           Keluar
         </button>

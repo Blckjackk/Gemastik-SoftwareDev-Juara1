@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { Sidebar } from "./sidebar";
 import { Topbar } from "./topbar";
 
@@ -12,10 +15,30 @@ interface AppLayoutProps {
 export function AppLayout({
   children,
   title,
-  userName = "Andi Pratama",
-  userRole = "siswa",
+  userName: propUserName,
+  userRole: propUserRole,
   notificationCount = 3,
 }: AppLayoutProps) {
+  const [userName, setUserName] = useState<string>("Andi Pratama");
+  const [userRole, setUserRole] = useState<"siswa" | "guru" | "admin">("siswa");
+
+  useEffect(() => {
+    const storedRole = localStorage.getItem("userRole") as any;
+    const storedName = localStorage.getItem("userName");
+
+    if (storedRole) {
+      setUserRole(storedRole);
+    } else if (propUserRole) {
+      setUserRole(propUserRole);
+    }
+
+    if (storedName) {
+      setUserName(storedName);
+    } else if (propUserName) {
+      setUserName(propUserName);
+    }
+  }, [propUserRole, propUserName]);
+
   return (
     <div className="flex min-h-screen bg-[#F8FAFC]">
       {/* Sidebar — fixed, 64px offset for main content */}
